@@ -54,13 +54,10 @@ def generate_index(all_notebooks: List[str], output_dir: str) -> None:
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>marimo</title>
+    <title>Srabon's notebooks</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   </head>
   <body class="font-sans max-w-2xl mx-auto p-8 leading-relaxed">
-    <div class="mb-8">
-      <img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/marimo-logotype-thick.svg" alt="marimo" class="h-20" />
-    </div>
     <div class="grid gap-4">
 """
             )
