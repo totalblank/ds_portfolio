@@ -16,19 +16,14 @@ async def _():
     import pandas as pd
     import sys
     import random
+    import altair_transform
 
     if "pyodide" in sys.modules:
         import micropip
         await micropip.install("altair")
 
     import altair as alt
-    return alt, mo, pd, random
-
-
-@app.cell
-def _(mo):
-    mo.md(r"""## Choose dataset""")
-    return
+    return alt, altair_transform, mo, pd, random
 
 
 @app.cell
@@ -102,17 +97,28 @@ def _(alt, df, dropdown_2, dropdown_3, random, valid_columns_2):
         y=dropdown_3.value,
         color=f'{random.choice(valid_columns_2)}:N',
         tooltip=valid_columns_2
-    ).properties(
-        width=700,
-        height=400
     )
 
-    chart += chart.transform_regression(
+    line = chart.transform_regression(
         dropdown_2.value,
-        dropdown_3.value,
+        dropdown_3.value
     ).mark_line()
 
-    chart.interactive()
+    params = alt.Chart(df).transform_regression(
+        dropdown_2.value, dropdown_3.value, params=True
+    ).mark_text(align='left').encode(
+        x=alt.value(20),  # pixels from left
+        y=alt.value(20),  # pixels from top
+        text="rSquared:N"
+    )
+
+    (chart + line + params).interactive()
+    return (line,)
+
+
+@app.cell
+def _(altair_transform, line):
+    print(altair_transform.extract_data(line))
     return
 
 
