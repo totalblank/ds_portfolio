@@ -14,7 +14,9 @@ def _():
     import polars.selectors as cs
 
     import altair as alt
-    return alt, mo, pathlib, pl
+
+    import kagglehub
+    return alt, kagglehub, mo, pathlib, pl
 
 
 @app.cell
@@ -24,9 +26,9 @@ def _(mo):
 
 
 @app.cell
-def _(pathlib, pl):
-    DATA_DIR = pathlib.Path('../data')
-    DATA = DATA_DIR / 'Heart Attack Dataset' / 'Medicaldataset.csv'
+def _(kagglehub, pathlib, pl):
+    path = pathlib.Path(kagglehub.dataset_download("fatemehmohammadinia/heart-attack-dataset-tarik-a-rashid"))
+    DATA = path / 'Medicaldataset.csv'
 
     df = pl.read_csv(DATA, infer_schema_length=1000)
     print(df)
