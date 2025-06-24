@@ -43,7 +43,7 @@ def _(kagglehub, pathlib, pl):
 
 @app.cell
 def _(mo):
-    mo.md(r"""# The Dataset""")
+    mo.md(r"""## The Dataset""")
     return
 
 
@@ -65,7 +65,6 @@ def _(mo):
         options=['Systolic', 'Diastolic'],
         value='Systolic',
         label='Blood Pressure Type',
-        searchable=True
     )
     bp_type
     return (bp_type,)

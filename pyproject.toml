@@ -8,6 +8,7 @@ dependencies = [
     "altair>=5.5.0",
     "altair-transform",
     "jupyter>=1.1.1",
+    "jupyterlab>=4.4.3",
     "jupyterlab-vim>=4.1.4",
     "kagglehub>=0.3.12",
     "keras>=3.10.0",
