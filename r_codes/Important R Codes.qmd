@@ -1,0 +1,132 @@
+---
+title: "R Basics"
+author: "Aheer Srabon"
+format: pdf
+editor: visual
+---
+
+## Visualizing distributions
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggthemes)
+library(nycflights13)
+```
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_len, y = body_mass)
+) +
+  geom_point()
+```
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_len, y = body_mass, color = species)
+) +
+  geom_point()
+```
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_len, y = body_mass, color = species)
+) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_len, y = body_mass)
+) +
+  geom_point(mapping = aes(color = species, shape = species)) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Body mass and flipper length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Flipper length (mm)", y = "Body mass (g)",
+    color = "Species", shape = "Species"
+  ) +
+  scale_color_colorblind()
+```
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(data = penguins, mapping = aes(
+  x = flipper_len,
+  y = body_mass
+)) +
+  geom_point(mapping = aes(
+    color = bill_dep))
+```
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(penguins, aes(
+  x = body_mass,
+  color = species,
+  fill = species
+)) +
+  geom_density(alpha = 0.3)
+```
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(mpg, mapping = aes(
+  x = displ,
+  y = hwy
+)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+## Data transformation
+
+```{r}
+# had an arrival delay of more than two hours
+flights |>
+  filter(arr_delay > 2) |>
+  arrange(arr_delay)
+```
+
+```{r}
+# flew to Houston
+flights |>
+  filter(dest == "IAH" | dest == "HOU") |>
+  arrange(dest)
+```
+
+```{r}
+# were operated by United, American, or Delta
+flights |>
+  filter(carrier == "UA" | carrier == "AA" | carrier == "DL") |>
+  arrange(carrier)
+```
+
+```{r}
+# departed in summar (july, august, or september)
+flights |>
+  filter(month >=7 & month <= 9) |>
+  arrange(month)
+```
+
+```{r}
+# Arrived more than two hours late but didn’t leave late
+flights |>
+  filter(arr_delay > 2 & dep_delay == 0) |>
+  arrange(arr_delay)
+```
+
+```{r}
+# Were delayed by at least an hour, but made up over 30 minutes in flight
+flights |>
+  filter(dep_delay >= 1 & air_time > 30) |>
+  select(air_time, dep_delay, origin, dest) |>
+  arrange(air_time)
+```
+
+```{r}
+# Sort flights to find the flights with the longest departure delays.
+# Find the flights that left earliest in the morning.
+```
