@@ -1,0 +1,26 @@
+---
+title: "Analyzing Billboard Dataset"
+format: pdf
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+billboard
+```
+
+```{r}
+tidy_billboard <- billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"),
+    names_to = "week",
+    values_to = "rank"
+  ) |> 
+  filter(!is.na(rank)) |> 
+  group_by(artist)
+
+tidy_billboard
+```
