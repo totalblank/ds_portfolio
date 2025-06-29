@@ -19,6 +19,8 @@ library(ggthemes)
 library(nycflights13)
 library(palmerpenguins)
 library(ggthemes)
+library(corrr)
+library(ggpubr)
 ```
 
 ## Data visualization
@@ -27,7 +29,7 @@ library(ggthemes)
 glimpse(penguins)
 ```
 
-```{r, message=F, fig.width=12, fig.height=8}
+```{r, message=F}
 penguins |> 
   filter(!is.na(flipper_length_mm) | !is.na(body_mass_g)) |> 
   ggplot(mapping = aes(
@@ -47,12 +49,31 @@ penguins |>
     x = "Flipper length (mm)",
     y = "Body mass (g)",
     color = "Species",
-    shape = "Species"
+    shape = "Species",
+    
   ) +
   scale_color_colorblind()
 ```
 
-```{r, warning=F, message=F, fig.width=12, fig.height=8}
+### Exercises
+
+```{r}
+# 1. How many rows and columns are there in penguins?
+dim(penguins) # row  column
+```
+
+```{r}
+# finding the correlations
+penguins |> 
+  select(species, bill_length_mm, bill_depth_mm) |> 
+  group_by(species) |> 
+  group_modify(~ corrr::correlate(.x))
+```
+
+```{r, warning=F, message=F, fig.width=10, fig.height=6}
+# 3. Make a scatterplot of bill_depth_mm vs. bill_length_mm.
+# Describe the relationship between these two variables.
+
 penguins |> 
   ggplot(mapping = aes(
     x = bill_depth_mm,
@@ -69,30 +90,33 @@ penguins |>
     color = "Species",
     shape = "Species"
   ) +
+  stat_cor(aes(
+    label = ..rr.label..
+  )) +
   scale_color_colorblind()
 ```
 
-## 
-
-## `Data tidying`
-
 ```{r}
-table1 |> 
-  mutate(rate = cases / population * 10000)
+# What happens if you make a scatterplot of species vs. bill_depth_mm?
+# What might be a better choice of geom?
+penguins |> 
+  ggplot() +
+  geom_point(mapping = aes(
+    x = species,
+    y = bill_length_mm
+  ),
+  na.rm = T) +
+  scale_color_colorblind()
 ```
 
 ```{r}
-table1 |> 
-  group_by(year) |> 
-  summarize(avg_cases = mean(cases), avg_population = mean(population))
-```
-
-```{r}
-billboard |> 
-  pivot_longer(
-    cols = starts_with("wk"),
-    names_to = "week",
-    values_to = "rank"
-  ) |> 
-  filter(is.na(rank))
+# a better choice would be to use geom_boxplot()
+penguins |> 
+  ggplot() +
+  geom_boxplot(mapping = aes(
+    x = species,
+    y = bill_length_mm
+  ),
+  na.rm = T) +
+  scale_color_colorblind()
 ```

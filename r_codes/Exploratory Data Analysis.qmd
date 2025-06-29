@@ -1,0 +1,23 @@
+---
+title: "Exploratory Data Analysis"
+author: "Aheer Srabon"
+format: html
+editor: visual
+---
+
+```{r, warning=FALSE, message=FALSE, include=FALSE}
+library(tidyverse)
+library(nycflights13)
+```
+
+# EDA from R for Data Science
+
+EDA is an iterative cycle of,
+
+1.  Generate questions about the data
+2.  Search for answers by visualizing, transforming, and modeling the data
+3.  Use what has been learned to refine the questions and/or generate new questions
+
+```{r}
+
+```
